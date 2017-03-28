@@ -22,13 +22,33 @@
         <div class="collapse navbar-collapse navbar-right" id="nav-menu">
           <ul class="nav navbar-nav">
             <li><a href="/signup">Signup</a></li>
-            <li><a href="#">Link</a></li>
+            <li class="dropdown">
+              <a  href="#"
+                  class="dropdown-toggle"
+                  data-toggle="dropdown"
+                  role="button"
+                  aria-haspopup="true"
+                  aria-expanded="false">Login <span class="caret"></span></a>
+              <div class="dropdown-menu login-menu">
+                <form>
+                  <div class="form-group">
+                    <input id="login-username" class="form-control" name="username" type="text" placeholder="Username">
+                  </div>
+                  <div class="form-group">
+                    <input id="login-password" class="form-control" name="password" type="password" placeholder="Password">
+                  </div>
+                  <button class="btn btn-block btn-default" type="submit">Login</button>
+                </form>
+              </div>
+            </li>
             <li><a href="#">Link</a></li>
           </ul>
         </div>
       </div>
     </nav>
-    <%= content %>
+    <main class="container">
+      <%= content %>
+    </main>
     <!-- Javascript at the end as is best practice -->
     %= asset 'app.js';
     %= content_for 'javascript';
