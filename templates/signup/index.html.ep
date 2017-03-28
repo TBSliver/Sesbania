@@ -1,5 +1,8 @@
 % layout 'default';
 % title 'Signup';
+% content_for javascript => begin
+%= asset 'signup.js';
+% end
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
     <h1>Signup</h1>
@@ -41,9 +44,3 @@
     </form>
   </div>
 </div>
-
-<script>
-$(function() {
-  $('#signup-form').validationEngine('attach');
-});
-</script>

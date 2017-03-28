@@ -10,6 +10,8 @@ sub startup {
 
   # Documentation browser under "/perldoc"
   $self->plugin('PODRenderer') if $config->{perldoc};
+  $self->plugin('AssetPack' => {pipes => [qw/ Css JavaScript Combine /]});
+  $self->app->asset->process;
 
   # Router
   my $r = $self->routes;
