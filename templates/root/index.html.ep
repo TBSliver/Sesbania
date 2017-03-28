@@ -1,0 +1,10 @@
+% layout 'default';
+% title 'Sesbania';
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <h1>Welcome to Sesbania</h1>
+
+    <p>This is the home page of the Sesbania Membership System, designed for
+    the Enlightened Perl Organisation</p>
+  </div>
+</div>

@@ -17,6 +17,8 @@ Perl Based CRM
   * DBIx::Class
 * Javascript
   * jQuery
+  * Bootstrap
 * CSS
-  * Pure CSS
+  * Bootstrap
+  * BootSwatch Yeti
 
