@@ -1,6 +1,8 @@
 package Sesbania::Plugin::FormBuilder;
 use Mojo::Base 'Mojolicious::Plugin';
 
+use Sesbania::Utils::TagHelpers ':all';
+
 sub register {
   my ($self, $app) = @_;
 
@@ -42,6 +44,10 @@ sub register {
         validator => 'required',
       },
     ],
+    submit => {
+      label => 'Signup',
+      style => 'success',
+    }
   });
 
 =cut
@@ -58,7 +64,23 @@ sub _form_builder {
     push @form_group, _input($c, $input);
     push @form, _form_group($c, @form_group);
   }
+  if ( defined $form_args->{submit} ) {
+    push @form, _submit_button(
+      $c,
+      $form_args->{submit}->{label},
+      $form_args->{submit}->{style},
+    );
+  }
   return _tag( 'form', { id => $form_args->{id} }, _root( @form ) );
+}
+
+sub _submit_button {
+  my ($c, $label, $style) = @_;
+  my $class = sprintf(
+    "btn btn-block btn-%s",
+    defined $style ? $style : 'default',
+  );
+  return _tag( 'button', { class => $class, type => 'submit' }, _text( $label ) );
 }
 
 sub _form_group {
@@ -96,64 +118,6 @@ sub _input {
   my $output = _tag( 'input', { %$input_args, class => $class });
 
   return $output;
-}
-
-=head2
-
-Node array:
-
-  0. Node Type
-  1. Tag Name (if tag), Raw Content (if raw), Names
-  2. attributes (id, class etc.
-  3. Namespace (for xml stuff)
-  4. Child array
-
-=cut
-
-=head2 _root
-
-This takes an array of nodes and returns a root node array
-
-=cut
-
-sub _root {
-  return ['root', @_];
-}
-
-=head2 _text
-
-This takes a text block to render inside a tag
-
-=cut
-
-sub _text {
-  return ['text', @_];
-}
-
-=head2 _tag
-
-This takes a tag name, attributes and an arrayref of children nodes.
-
-=cut
-
-sub _tag {
-  my $name = shift;
-  my $attributes = shift;
-  my $children = shift;
-
-  return ['tag', $name, $attributes, undef, $children];
-}
-
-sub _render_byte_tree {
-  return _render_bytestream(_render_tree(shift));
-}
-
-sub _render_tree {
-  return Mojo::DOM::HTML::_render(shift);
-}
-
-sub _render_bytestream {
-  return Mojo::ByteStream->new(shift);
 }
 
 1;
