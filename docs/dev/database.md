@@ -3,6 +3,12 @@
 From the get go, we will need to set some basic design decisions for the
 database in terms of table naming and items like that.
 
+## TL;DR
+
+* Maximum table name length is 53 characters
+* Prefix tables with plugin name
+* Be descriptive within these limits
+
 ## Data Limits
 
 There are limits to Table name lengths in:
@@ -17,7 +23,7 @@ There are limits to Table name lengths in:
 So we will have to keep the table name lengths down under 63 characters. Thats
 still a long name!
 
-## Proposition
+## Database Prefix
 
 I propose then, either to have the prefix of `sesbania_` or `sb_` for each
 table. Actually... hmm. Here are the options:
@@ -62,3 +68,16 @@ Which is quite frankly ludicrous. So, default prefix for the tables is
 `sesbania_` and will be so throughout the rest of the documentation - but
 plugin code should not rely on that, and should instead use the DBIC resultsets
 and joins.
+
+## Plugin Tables
+
+A plugin table should be prefixed with the plugin name, while keeping in the
+table name limits. Some examples:
+
+* `core_users`
+* `core_users_roles`
+* `formbuilder_forms`
+* `formbuilder_forms_inputs`
+
+The column names are otherwise arbitrary, although all tables should have a
+primary key defined. (This can be a multi column key, or whatever is required)
