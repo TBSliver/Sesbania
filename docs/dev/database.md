@@ -9,6 +9,19 @@ database in terms of table naming and items like that.
 * Prefix tables with plugin name
 * Be descriptive within these limits
 
+## Targeted Databases
+
+By default, we will be targeting the following database engines:
+
+* Postgres
+* MySQL (and by proxy MariaDB)
+* SQLite
+
+All tests must run and pass under any and all of these databases, for the
+latest supported version of the database at time of release. Bonus points if it
+will work for older versions of the database and is tested for it, though this
+is not a requirement.
+
 ## Data Limits
 
 There are limits to Table name lengths in:
@@ -81,3 +94,7 @@ table name limits. Some examples:
 
 The column names are otherwise arbitrary, although all tables should have a
 primary key defined. (This can be a multi column key, or whatever is required)
+
+## Schema upgrades
+
+Plugins should work under the provided schema upgrade script. *Under Development*
