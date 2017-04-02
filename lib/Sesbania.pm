@@ -13,6 +13,8 @@ sub startup {
   $self->plugin('AssetPack' => {pipes => [qw/ Css JavaScript Combine /]});
   $self->app->asset->process;
 
+  $self->plugin('Sesbania::Plugin::FormBuilder');
+
   # Router
   my $r = $self->routes;
 
