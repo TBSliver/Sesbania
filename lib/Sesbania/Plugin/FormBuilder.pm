@@ -112,7 +112,7 @@ sub _input {
   my $class = "form-control";
 
   if (defined $validator) {
-    $class = sprintf( '%s validator[%s]', $class, $validator );
+    $class = sprintf( '%s validate[%s]', $class, $validator );
   }
 
   my $output = _tag( 'input', { %$input_args, class => $class });

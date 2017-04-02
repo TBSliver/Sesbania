@@ -62,24 +62,24 @@ get 'form' => sub {
 my $t = Test::Mojo->new;
 
 $t->get_ok('/input')->content_is(<<'EOF');
-<input class="form-control validator[required]" name="input" placeholder="My Input" type="text">
+<input class="form-control validate[required]" name="input" placeholder="My Input" type="text">
 <input class="form-control" name="input" placeholder="My Input" type="text">
 EOF
 
 $t->get_ok('/form')->content_is(
   '<form id="form_id">'
   . '<div class="form-group">'
-  . '<input class="form-control validator[required]" id="form_id-name" name="name" placeholder="Full Name" type="text">'
+  . '<input class="form-control validate[required]" id="form_id-name" name="name" placeholder="Full Name" type="text">'
   . '</div>'
   . '<div class="form-group">'
-  . '<input class="form-control validator[required]" id="form_id-username" name="username" placeholder="Username" type="text">'
+  . '<input class="form-control validate[required]" id="form_id-username" name="username" placeholder="Username" type="text">'
   . '</div>'
   . '<div class="form-group">'
   . '<label for="form_id-email">Email Address</label>'
-  . '<input class="form-control validator[required,custom[email]]" id="form_id-email" name="email" placeholder="Email" type="email">'
+  . '<input class="form-control validate[required,custom[email]]" id="form_id-email" name="email" placeholder="Email" type="email">'
   . '</div>'
   . '<div class="form-group">'
-  . '<input class="form-control validator[required]" id="form_id-password" name="password" placeholder="Password" type="password">'
+  . '<input class="form-control validate[required]" id="form_id-password" name="password" placeholder="Password" type="password">'
   . '</div>'
   . "</form>\n"
 );
