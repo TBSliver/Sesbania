@@ -1,4 +1,4 @@
 $(function() {
-  $('#signup-form').validationEngine('attach');
+  $('form').validationEngine();
 });
 
