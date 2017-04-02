@@ -13,7 +13,10 @@ sub startup {
   $self->plugin('AssetPack' => {pipes => [qw/ Css JavaScript Combine /]});
   $self->app->asset->process;
 
-  $self->plugin('Sesbania::Plugin::FormBuilder');
+  # TODO Will we need configuration options for these?
+  for my $plugin_name ( @{ $config->{plugins} } ) {
+    $self->plugin($plugin_name);
+  }
 
   # Router
   my $r = $self->routes;
