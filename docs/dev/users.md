@@ -44,7 +44,10 @@ can be assigned to users, a'la mediawiki or other such software. So the terms wi
 
 ## Extra Details Definition
 
-An extra detail is something like an address field, or email. There should be a way to add arbitrary information sets to this, although should we have some items be pre-typed? Also need a way to set certain things as 'primary' eg email addresses. Should this be stored in a seperate set of tables? or what?
+An extra detail is something like an address field, or email. There should be a
+way to add arbitrary information sets to this, although should we have some
+items be pre-typed? Also need a way to set certain things as 'primary' eg email
+addresses. Should this be stored in a seperate set of tables? or what?
 
 ## Storage
 
