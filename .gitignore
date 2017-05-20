@@ -1,3 +1,4 @@
 *.swp
 assets/cache
 assets/assetpack.db
+cover_db/
