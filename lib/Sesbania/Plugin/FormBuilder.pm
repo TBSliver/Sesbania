@@ -71,7 +71,10 @@ sub _form_builder {
       $form_args->{submit}->{style},
     );
   }
-  return _tag( 'form', { id => $form_args->{id} }, _root( @form ) );
+  my $form_attrs = {
+    map { defined $form_args->{$_} ? ( $_ => $form_args->{$_} ) : () } qw/ id action method /
+  };
+  return _tag( 'form', $form_attrs, _root( @form ) );
 }
 
 sub _submit_button {
