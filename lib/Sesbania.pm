@@ -8,10 +8,11 @@ sub startup {
   # Load configuration from hash returned by "my_app.conf"
   my $config = $self->plugin('Config');
 
-  # Documentation browser under "/perldoc"
-  $self->plugin('PODRenderer') if $config->{perldoc};
   $self->plugin('AssetPack' => {pipes => [qw/ Css JavaScript Combine /]});
   $self->app->asset->process;
+
+  # Always requires core
+  $self->plugin('Sesbania::Plugin::Core');
 
   # TODO Will we need configuration options for these?
   for my $plugin_name ( @{ $config->{plugins} } ) {
@@ -24,6 +25,7 @@ sub startup {
   # Normal route to controller
   $r->get('/')->to('root#index');
   $r->get('/signup')->to('signup#index');
+
 }
 
 1;
