@@ -1,4 +1,4 @@
-package Sesbaina::Controller::Root;
+package Sesbania::Controller::Root;
 use Mojo::Base 'Mojolicious::Controller';
 
 sub index {
