@@ -2,12 +2,15 @@ use Mojo::Base -strict;
 
 use Test::More;
 use Test::Exception;
+use Test::Warnings qw/ warning /;
 use Mojolicious::Lite;
 use Test::Mojo;
 
 lives_ok { plugin 'Sesbania::Plugin::Core' } 'Plugin Loaded';
 
 ok app->sesbania_has_plugin('Sesbania::Plugin::Core'), 'plugin registered';
+
+like warning { app->sesbania_register_plugin('Sesbania::Plugin::Core') }, qr/^Plugin Already Loaded/, 'correct warning on multiple loading';
 
 is_deeply app->sesbania_list_plugins, [ 'Sesbania::Plugin::Core' ], 'plugin listed';
 
