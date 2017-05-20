@@ -24,6 +24,13 @@ sub register {
   );
 
   $app->helper(
+    sesbania_list_plugins => sub {
+      my ( $c ) = @_;
+      return [ sort keys %{ $self->loaded_plugins } ];
+    }
+  );
+
+  $app->helper(
     sesbania_register_commands => sub {
       my ( $c, $plugin_name ) = @_;
       push @{ $app->commands->namespaces }, $plugin_name . '::Command';
@@ -45,6 +52,8 @@ sub register {
       push @{ $app->renderer->classes }, $template_name;
     }
   );
+
+  $app->sesbania_register_plugin( __PACKAGE__ );
 }
 
 1;
