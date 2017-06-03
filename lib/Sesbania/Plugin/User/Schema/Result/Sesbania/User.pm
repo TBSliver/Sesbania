@@ -30,6 +30,6 @@ column password => {
 has_many user_roles => 'Sesbania::Plugin::User::Schema::Result::Sesbania::UserRole', 'user_id';
 many_to_many roles => 'user_roles', 'role_id';
 
-has_many details => 'Sesbania::Plugin::User::Schema::Result::Sesbania::UserDetails', 'user_id';
+has_many details => 'Sesbania::Plugin::User::Schema::Result::Sesbania::UserDetail', 'user_id';
 
 1;

@@ -11,46 +11,25 @@ sub auth {
 sub show {
   my $c = shift;
 
-  my $template_string = q~
-%= sesbania_form_builder $form
-<div><h2>This is only a test</h2></div>
-<div><%= 2 + 2 %></div>
-<div><%= $testing %></div>
-~;
+  my $path = $c->req->url->path;
+  $path =~ s!^/!!;
 
-  $c->stash( form => { 
-    id => 'login_form',
-    action => $c->url_for,
-    method => 'post',
-    inputs => [
-      {
-        label => 'Username',
-        name => 'username',
-        type => 'text',
-        placeholder => 'Username',
-        validator => 'required',
-      },
-      {
-        label => 'Password',
-        name => 'password',
-        type => 'password',
-        placeholder => 'Password',
-        validator => 'required',
-      },
-    ],
-    submit => {
-      label => 'Login',
-      style => 'primary',
-    },
-  });
+  my $page_result = $c->db->resultset('Sesbania::Page')->find({ path => $path });
 
-  $c->stash( testing => 'This is only a test' );
+  if ( defined $page_result ) {
+    $c->stash(
+      head => $page_result->head,
+      body => $page_result->body,
+    );
+    return $c->render( template => 'pages/root/show' );
+  }
 
-  $c->stash( head => '<title>Testing</title>' );
+  $c->stash(
+    head => "<title>Boom!</title>",
+    body => "<p>something went wrong</p>",
+  );
 
-  $c->stash( body => $c->render_to_string( inline => $template_string ) );
-
-  $c->render( template => 'pages/root/show' );
+  $c->render( status => 404, template => 'pages/root/show' );
 }
 
 1;

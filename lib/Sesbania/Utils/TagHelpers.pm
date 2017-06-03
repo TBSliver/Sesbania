@@ -4,7 +4,13 @@ use Mojo::DOM::HTML;
 use Mojo::ByteStream;
 use Exporter 'import';
 
-@EXPORT_OK = qw/ _tag _root _text _render_byte_tree /;
+@EXPORT_OK = qw/
+  _raw
+  _render_byte_tree
+  _root
+  _tag
+  _text
+/;
 %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 =head2
@@ -42,6 +48,12 @@ This takes a tag name, attributes and an arrayref of children nodes.
 =cut
 
 sub _tag {  return ['tag', shift, shift, undef, shift] }
+
+=head2 _raw
+
+=cut
+
+sub _raw { return ['raw', shift] }
 
 sub _render_byte_tree {
   return _render_bytestream(_render_tree(shift));
