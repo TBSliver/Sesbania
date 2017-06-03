@@ -16,7 +16,7 @@ isa_ok $t->app->db, 'DBIx::Class::Schema';
 
 $t->app->db->deploy;
 
-my $user_rs = $t->app->db->resultset('User::User');
+my $user_rs = $t->app->db->resultset('Sesbania::User');
 
 is $user_rs->count, 0, 'No Users';
 

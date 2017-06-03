@@ -1,4 +1,4 @@
-package Sesbania::Plugin::User::Schema::Result::User::User;
+package Sesbania::Plugin::User::Schema::Result::Sesbania::User;
 
 use DBIx::Class::Candy
   -autotable => v1,
@@ -26,5 +26,10 @@ column password => {
   },
   passphrase_check_method => 'check_password',
 };
+
+has_many user_roles => 'Sesbania::Plugin::User::Schema::Result::Sesbania::UserRole', 'user_id';
+many_to_many roles => 'user_roles', 'role_id';
+
+has_many details => 'Sesbania::Plugin::User::Schema::Result::Sesbania::UserDetails', 'user_id';
 
 1;
