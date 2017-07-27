@@ -2,12 +2,12 @@ package Sesbania::Plugin::User::Controller::User::Admin;
 use Mojo::Base 'Mojolicious::Controller';
 
 has resultset => sub {
-  return shift->db->resultset('User::User');
+  return shift->db->resultset('Sesbania::User');
 };
 
 sub list {
   my $c = shift;
-  $c->stash( users => $self->resultset );
+  $c->stash( users => $c->resultset );
 }
 
 sub create {
