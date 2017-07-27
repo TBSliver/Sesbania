@@ -4,6 +4,6 @@ package Sesbania::Plugin::User::Templates;
 __DATA__
 
 @@ user/admin/list.html.ep
-% layout 'default';
+% layout 'admin_full';
 % title 'User Admin';
 <h2>User Admin</h2>
