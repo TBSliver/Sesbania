@@ -19,7 +19,6 @@ sub register {
     $app->sesbania_admin_add_route( 'GET', '/users/:id', 'user-admin#read' );
     $app->sesbania_admin_add_route( 'POST', '/users/:id', 'user-admin#update' );
     $app->sesbania_admin_add_route( 'GET', '/users/:id/delete', 'user-admin#delete' );
-    $app->log->debug('Adding User Sidebar Items');
     $app->sesbania_admin_add_sidebar_item({
       link => '/admin/users',
       text => 'Users',
