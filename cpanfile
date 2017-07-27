@@ -6,6 +6,7 @@ requires 'JavaScript::Minifier::XS';
 requires 'IO::Socket::SSL';
 requires 'DBIx::Class';
 requires 'DBIx::Class::Candy';
+requires 'DBIx::Class::PassphraseColumn';
 
 on 'test' => sub {
   requires 'Test::More';
