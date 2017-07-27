@@ -28,6 +28,7 @@ sub register {
   my ( $self, $app ) = @_;
 
   $app->sesbania_register_plugin( __PACKAGE__ );
+  $app->sesbania_register_commands( __PACKAGE__ );
 
   $self->config( $app->config->{database} );
 
