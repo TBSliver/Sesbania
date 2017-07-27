@@ -32,13 +32,17 @@ sub register {
     my ( $c, $item ) = @_;
     push @{ $self->sidebar_items }, $item;
   });
+
   $app->helper( sesbania_admin_sidebar_items => sub {
     my ( $c ) = @_;
     return sort { $a->{text} cmp $b->{text} } @{ $self->sidebar_items };
   });
 
-
   $app->sesbania_admin_add_route( 'GET', '/index', 'admin-root#index' );
+  $app->sesbania_admin_add_sidebar_item({
+    link => '/admin/index',
+    text => 'Home',
+  });
 
   $app->sesbania_register_templates( __PACKAGE__ );
 }
