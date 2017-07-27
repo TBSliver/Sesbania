@@ -3,7 +3,7 @@ package Sesbania::Plugin::Admin::Templates;
 1;
 __DATA__
 
-@@ layouts/admin.html.ep
+@@ layouts/admin_base.html.ep
 <!DOCTYPE html>
 <html>
   <head>
@@ -33,7 +33,7 @@ __DATA__
       </div>
     </nav>
     <main class="container">
-      <%= content %>
+      <%= content 'body' %>
     </main>
     <!-- Javascript at the end as is best practice -->
     %= asset 'app.js';
@@ -41,19 +41,9 @@ __DATA__
   </body>
 </html>
 
-@@ admin/root/login.html.ep
-% layout 'admin';
-% title 'Admin Login';
-<div class="row">
-  <div class="col-md-4 col-md-offset-4">
-    <h1>Login</h1>
-    %= sesbania_form_builder $login_form
-  </div>
-</div>
-
-@@ admin/root/index.html.ep
-% layout 'admin';
-% title 'Admin Home';
+@@ layouts/admin_full.html.ep
+% layout 'admin_base';
+% content body => begin
 <div class="row">
   <div class="col-md-4">
     <h4>Admin Menu</h4>
@@ -63,6 +53,24 @@ __DATA__
       % }
   </div>
   <div class="col-md-8">
-    <h1>Main Admin</h1>
+    <%= content %>
   </div>
 </div>
+% end
+
+@@ admin/root/login.html.ep
+% layout 'admin_base';
+% title 'Admin Login';
+% content body => begin
+<div class="row">
+  <div class="col-md-4 col-md-offset-4">
+    <h1>Login</h1>
+    %= sesbania_form_builder $login_form
+  </div>
+</div>
+% end
+
+@@ admin/root/index.html.ep
+% layout 'admin_full';
+% title 'Admin Home';
+<h1>Main Admin</h1>
