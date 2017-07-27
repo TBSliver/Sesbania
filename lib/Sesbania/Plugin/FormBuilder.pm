@@ -69,18 +69,26 @@ sub _form_builder {
       $c,
       $form_args->{submit}->{label},
       $form_args->{submit}->{style},
+      $form_args->{submit}->{size},
     );
   }
   my $form_attrs = {
-    map { defined $form_args->{$_} ? ( $_ => $form_args->{$_} ) : () } qw/ id action method /
+    ( map { defined $form_args->{$_} ? ( $_ => $form_args->{$_} ) : () } qw/ id action method / ),
+    ( defined $form_args->{type}
+      ? $form_args->{type} eq 'inline'
+        ? ( class => 'form-inline' )
+        : ()
+      : ()
+    )
   };
   return _tag( 'form', $form_attrs, _root( @form ) );
 }
 
 sub _submit_button {
-  my ($c, $label, $style) = @_;
+  my ($c, $label, $style, $size) = @_;
   my $class = sprintf(
-    "btn btn-block btn-%s",
+    "btn %s btn-%s",
+    defined $size ? $size eq 'block' ? "btn-block" : '' : 'btn-block',
     defined $style ? $style : 'default',
   );
   return _tag( 'button', { class => $class, type => 'submit' }, _text( $label ) );
