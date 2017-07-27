@@ -18,14 +18,6 @@ sub startup {
   for my $plugin_name ( @{ $config->{plugins} } ) {
     $self->plugin($plugin_name);
   }
-
-  # Router
-  my $r = $self->routes;
-
-  # Normal route to controller
-  $r->get('/')->to('root#index');
-  $r->get('/signup')->to('signup#index');
-
 }
 
 1;
