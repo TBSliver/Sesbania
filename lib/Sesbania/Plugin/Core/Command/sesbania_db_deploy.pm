@@ -1,4 +1,4 @@
-package Sesbania::Plugin::Database::Command::db_deploy;
+package Sesbania::Plugin::Core::Command::sesbania_db_deploy;
 use Mojo::Base 'Mojolicious::Command';
 
 use Mojo::Util 'getopt';
@@ -10,15 +10,12 @@ has usage => sub { shift->extract_usage };
 sub run {
   my ( $self, @args ) = @_;
 
-  $self->app->db->deploy;
+  $self->app->sesbania_db->deploy;
 }
 
 =head1 SYNOPSIS
 
-  Usage: APPLICATION user_add [OPTIONS]
-
-  Options:
-    -c, --connection  Use this database connection
+  Usage: APPLICATION sesbania_db_deploy [OPTIONS]
 
 =cut
 
