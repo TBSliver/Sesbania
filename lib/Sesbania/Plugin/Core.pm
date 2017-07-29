@@ -4,6 +4,8 @@ use Mojo::Base 'Mojolicious::Plugin';
 use Mojo::Loader qw/ load_class /;
 use Sesbania::Plugin::Core::Schema;
 
+has 'app';
+
 has config => sub { {} };
 
 has loaded_plugins => sub { {} };
@@ -17,9 +19,25 @@ has schema => sub {
   );
 };
 
+has admin_route => sub { return shift->config->{admin_route} || 'admin' };
+
+has admin_public_route => sub {
+  my $self = shift;
+  return $self->app->routes->any( '/' . $self->admin_route );
+};
+
+has admin_private_route => sub {
+  my $self = shift;
+  return $self->app->routes->under( '/' . $self->admin_route )
+    ->to('admin-root#auth');
+};
+
+has admin_sidebar_items => sub { [] };
+
 sub register {
   my ( $self, $app ) = @_;
 
+  $self->app( $app );
   $self->config( $app->config->{sesbania} );
 
   $app->helper(
@@ -84,9 +102,50 @@ sub register {
 
   $app->helper( sesbania_db => sub { return shift->schema } );
 
+  $app->helper( sesbania_admin_add_public_route => sub {
+    my ( $c, $methods, $sub_route, $args, $name ) = @_;
+    $self->admin_public_route->route( $sub_route )
+      ->via( ref( $methods ) eq 'ARRAY' ? @$methods : $methods )
+      ->to( $args )
+      ->name( $name );
+  });
+
+  $app->helper( sesbania_admin_add_private_route => sub {
+    my ( $c, $methods, $sub_route, $args, $name ) = @_;
+    $self->admin_private_route->route( $sub_route )
+      ->via( ref( $methods ) eq 'ARRAY' ? @$methods : $methods )
+      ->to( $args )
+      ->name( $name );
+  });
+
+  $app->helper( sesbania_admin_add_sidebar_item => sub {
+    my ( $c, $item ) = @_;
+    push @{ $self->admin_sidebar_items }, $item;
+  });
+
+  $app->helper( sesbania_admin_sidebar_items => sub {
+    my ( $c ) = @_;
+    return sort { $a->{text} cmp $b->{text} } @{ $self->admin_sidebar_items };
+  });
+
+  $app->sesbania_admin_add_public_route( 'GET', '/',
+    'admin-root#get_login', 'sesbania-admin-login-get' );
+  $app->sesbania_admin_add_public_route( 'POST', '/',
+    'admin-root#post_login', 'sesbania-admin-login-post' );
+
+  $app->sesbania_admin_add_private_route( 'GET', '/index',
+    'admin-root#index', 'sesbania-admin-root-index' );
+
+  $app->sesbania_admin_add_sidebar_item({
+    link => 'sesbania-admin-root-index',
+    text => 'Home',
+  });
+
   # Actually do the setup
   $app->sesbania_register_plugin( __PACKAGE__ );
   $app->sesbania_register_commands( __PACKAGE__ );
+  $app->sesbania_register_templates( __PACKAGE__ );
+  $app->sesbania_register_controllers( __PACKAGE__ );
   $app->sesbania_register_db_namespace( __PACKAGE__ );
 }
 
