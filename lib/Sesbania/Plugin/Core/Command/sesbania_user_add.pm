@@ -1,4 +1,4 @@
-package Sesbania::Plugin::User::Command::user_add;
+package Sesbania::Plugin::Core::Command::sesbania_user_add;
 use Mojo::Base 'Mojolicious::Command';
 
 use Mojo::Util 'getopt';

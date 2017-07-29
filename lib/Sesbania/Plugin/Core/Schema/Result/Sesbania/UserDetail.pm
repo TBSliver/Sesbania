@@ -1,4 +1,4 @@
-package Sesbania::Plugin::User::Schema::Result::Sesbania::UserDetail;
+package Sesbania::Plugin::Core::Schema::Result::Sesbania::UserDetail;
 
 use DBIx::Class::Candy
   -autotable => v1;
@@ -23,6 +23,6 @@ column value => {
   data_type => 'text',
 };
 
-belongs_to user => 'Sesbania::Plugin::User::Schema::Result::Sesbania::User', 'user_id';
+belongs_to user => 'Sesbania::Plugin::Core::Schema::Result::Sesbania::User', 'user_id';
 
 1;

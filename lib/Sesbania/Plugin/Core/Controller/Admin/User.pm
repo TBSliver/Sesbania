@@ -1,8 +1,8 @@
-package Sesbania::Plugin::User::Controller::User::Admin;
+package Sesbania::Plugin::Core::Controller::Admin::User;
 use Mojo::Base 'Mojolicious::Controller';
 
 has resultset => sub {
-  return shift->db->resultset('Sesbania::User');
+  return shift->sesbania_db->resultset('Sesbania::User');
 };
 
 sub list {
@@ -34,6 +34,7 @@ sub list {
       size => 'inline',
     },
   } );
+  $c->render( template => 'sesbania/admin/user/list' );
 }
 
 sub create {
@@ -51,7 +52,7 @@ sub create {
     });
     $c->flash( success => "User Created" );
   }
-  $c->redirect_to( '/admin/users' );
+  $c->redirect_to( 'sesbania-admin-user-list' );
 }
 
 sub read {

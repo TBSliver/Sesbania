@@ -37,12 +37,12 @@ has admin_sidebar_items => sub { [] };
 sub register {
   my ( $self, $app ) = @_;
 
-  $self->plugin('Config');
-  $self->plugin('AssetPack' => {pipes => [qw/ Css JavaScript Combine /]});
-  $self->app->asset->process;
+  $app->plugin('Config');
+  $app->plugin('AssetPack' => {pipes => [qw/ Css JavaScript Combine /]});
+  $app->asset->process;
 
-  $self->plugin('Sesbania::Plugin::FormBuilder');
-  $self->plugin('Sesbania::Plugin::Validators');
+  $app->plugin('Sesbania::Plugin::FormBuilder');
+  $app->plugin('Sesbania::Plugin::Validators');
 
   $self->app( $app );
 
@@ -94,9 +94,10 @@ sub register {
 
   $app->helper(
     sesbania_register_db_namespace => sub {
-      my ( $c, $namespace ) = @_;
+      my ( $c, $class_name ) = @_;
       # Namespaces require a plus at the beginning to set up correctly outside
       # of the current namespace
+      my $namespace = $class_name . '::Schema';
       my $result_ns = sprintf('+%s::Result', $namespace);
       my $resultset_ns = sprintf('+%s::ResultSet', $namespace);
       $self->schema->load_namespaces(
@@ -106,7 +107,7 @@ sub register {
     }
   );
 
-  $app->helper( sesbania_db => sub { return shift->schema } );
+  $app->helper( sesbania_db => sub { return $self->schema } );
 
   $app->helper( sesbania_admin_add_public_route => sub {
     my ( $c, $methods, $sub_route, $args, $name ) = @_;
@@ -141,10 +142,24 @@ sub register {
 
   $app->sesbania_admin_add_private_route( 'GET', '/index',
     'admin-root#index', 'sesbania-admin-root-index' );
+  $app->sesbania_admin_add_private_route( 'GET', '/users',
+    'admin-user#list', 'sesbania-admin-user-list' );
+  $app->sesbania_admin_add_private_route( 'POST', '/users',
+    'admin-user#create', 'sesbania-admin-user-list' );
+  $app->sesbania_admin_add_private_route( 'GET', '/users/:id',
+    'admin-user#read', 'sesbania-admin-user-list' );
+  $app->sesbania_admin_add_private_route( 'POST', '/users/:id',
+    'admin-user#update', 'sesbania-admin-user-list' );
+  $app->sesbania_admin_add_private_route( 'GET', '/users/:id/delete',
+    'admin-user#delete', 'sesbania-admin-user-list' );
 
   $app->sesbania_admin_add_sidebar_item({
     link => 'sesbania-admin-root-index',
     text => 'Home',
+  });
+  $app->sesbania_admin_add_sidebar_item({
+    link => 'sesbania-admin-user-list',
+    text => 'Users',
   });
 
   # Actually do the setup
