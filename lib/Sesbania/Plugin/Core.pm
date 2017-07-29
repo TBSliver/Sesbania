@@ -6,7 +6,7 @@ use Sesbania::Plugin::Core::Schema;
 
 has 'app';
 
-has config => sub { {} };
+has config => sub { shift->app->config->{sesbania} };
 
 has loaded_plugins => sub { {} };
 
@@ -37,8 +37,14 @@ has admin_sidebar_items => sub { [] };
 sub register {
   my ( $self, $app ) = @_;
 
+  $self->plugin('Config');
+  $self->plugin('AssetPack' => {pipes => [qw/ Css JavaScript Combine /]});
+  $self->app->asset->process;
+
+  $self->plugin('Sesbania::Plugin::FormBuilder');
+  $self->plugin('Sesbania::Plugin::Validators');
+
   $self->app( $app );
-  $self->config( $app->config->{sesbania} );
 
   $app->helper(
     sesbania_register_plugin => sub {
