@@ -1,4 +1,4 @@
-package Sesbania::Plugin::Admin::Controller::Admin::Root;
+package Sesbania::Plugin::Core::Controller::Admin::Root;
 use Mojo::Base 'Mojolicious::Controller';
 
 sub get_login {
@@ -29,7 +29,7 @@ sub get_login {
       style => 'primary',
     },
   });
-  $c->render( template => 'admin/root/login' );
+  $c->render( template => 'sesbania/admin/root/login' );
 }
 
 sub post_login {
@@ -38,9 +38,9 @@ sub post_login {
   $c->app->log->debug('Checking Login');
   $c->app->log->debug(sprintf "Username: [%s]", $c->param( 'username' ) || '');
   $c->app->log->debug(sprintf "Password: [%s]", $c->param( 'password' ) || '');
-  return $c->redirect_to('/admin/index') if $c->param( 'username' ) eq 'test@example.com';
+  return $c->redirect_to('sesbania-admin-root-index') if $c->param( 'username' ) eq 'test@example.com';
   $c->app->log->debug('Failed Redirect');
-  $c->redirect_to('/admin');
+  $c->redirect_to('sesbania-admin-login-get');
 }
 
 sub auth {
@@ -51,6 +51,7 @@ sub auth {
 sub index {
   my $c = shift;
 
+  $c->render( template => 'sesbania/admin/root/index' );
 }
 
 1;

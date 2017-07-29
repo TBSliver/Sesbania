@@ -1,9 +1,9 @@
-package Sesbania::Plugin::Admin::Templates;
+package Sesbania::Plugin::Core::Templates;
 
 1;
 __DATA__
 
-@@ layouts/admin_base.html.ep
+@@ layouts/sesbania/admin_base.html.ep
 <!DOCTYPE html>
 <html>
   <head>
@@ -41,8 +41,8 @@ __DATA__
   </body>
 </html>
 
-@@ layouts/admin_full.html.ep
-% layout 'admin_base';
+@@ layouts/sesbania/admin_full.html.ep
+% layout 'sesbania/admin_base';
 % content body => begin
 <div class="row">
   <div class="col-md-4">
@@ -58,8 +58,8 @@ __DATA__
 </div>
 % end
 
-@@ admin/root/login.html.ep
-% layout 'admin_base';
+@@ sesbania/admin/root/login.html.ep
+% layout 'sesbania/admin_base';
 % title 'Admin Login';
 % content body => begin
 <div class="row">
@@ -70,7 +70,7 @@ __DATA__
 </div>
 % end
 
-@@ admin/root/index.html.ep
-% layout 'admin_full';
+@@ sesbania/admin/root/index.html.ep
+% layout 'sesbania/admin_full';
 % title 'Admin Home';
 <h1>Main Admin</h1>
