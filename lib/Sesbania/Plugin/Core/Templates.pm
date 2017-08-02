@@ -37,7 +37,7 @@ __DATA__
     </main>
     <!-- Javascript at the end as is best practice -->
     %= asset 'app.js';
-    %= content_for 'javascript';
+    %= asset 'sesbania-admin.js';
   </body>
 </html>
 
@@ -45,14 +45,33 @@ __DATA__
 % layout 'sesbania/admin_base';
 % content body => begin
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-2">
     <h4>Admin Menu</h4>
     <ul class="nav nav-stacked">
       % for my $item ( my @items = sesbania_admin_sidebar_items ) {
-      <li><a href="<%= url_for $item->{link} %>"><%= $item->{text} %></a></li>
+      % my $collapse_count = 0;
+        % if ( defined $item->{children} ) {
+          % my $collapse_id = 'collapse_' . $collapse_count;
+          % $collapse_count++;
+          % my @child_links = ( map { url_for $_->{link} } @{ $item->{children} } );
+          % my $current_url = url_for;
+          % my $active_route = scalar( grep( /^${current_url}$/, @child_links ) );
+          <li>
+            <a href="#<%= $collapse_id %>" data-toggle="collapse"><%= $item->{text} %>
+            <i class="fa fa-chevron-down pull-right"></i>
+            </a>
+            <ul id="<%= $collapse_id %>" class="nav nav-stacked collapse<%= $active_route ? ' in' : '' %>">
+            % for my $item_child ( @{ $item->{children} } ) {
+              <li><a href="<%= url_for $item_child->{link} %>"><%= $item_child->{text} %></a></li>
+            % }
+            </ul>
+          </li>
+        % } else {
+          <li><a href="<%= defined $item->{link} ? url_for $item->{link} : '#' %>"><%= $item->{text} %></a></li>
+        % }
       % }
   </div>
-  <div class="col-md-8">
+  <div class="col-md-10">
     <%= content %>
   </div>
 </div>
@@ -88,7 +107,12 @@ __DATA__
   <strong>Success!</strong> <%= $success %>
   </div>
 % }
-%= sesbania_form_builder $user_create_form
 % for my $user ( $users->all ) {
 <p><%= $user->username %></p>
 % }
+
+@@ sesbania/admin/user/add.html.ep
+% layout 'sesbania/admin_full';
+% title 'Add User';
+<h1>Add User</h1>
+%= sesbania_form_builder $user_create_form

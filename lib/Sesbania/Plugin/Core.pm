@@ -144,22 +144,33 @@ sub register {
     'admin-root#index', 'sesbania-admin-root-index' );
   $app->sesbania_admin_add_private_route( 'GET', '/users',
     'admin-user#list', 'sesbania-admin-user-list' );
-  $app->sesbania_admin_add_private_route( 'POST', '/users',
-    'admin-user#create', 'sesbania-admin-user-list' );
+  $app->sesbania_admin_add_private_route( 'GET', '/users/add',
+    'admin-user#add', 'sesbania-admin-user-add' );
+  $app->sesbania_admin_add_private_route( 'POST', '/users/add',
+    'admin-user#create', 'sesbania-admin-user-create' );
   $app->sesbania_admin_add_private_route( 'GET', '/users/:id',
-    'admin-user#read', 'sesbania-admin-user-list' );
+    'admin-user#read', 'sesbania-admin-user-edit' );
   $app->sesbania_admin_add_private_route( 'POST', '/users/:id',
-    'admin-user#update', 'sesbania-admin-user-list' );
+    'admin-user#update', 'sesbania-admin-user-update' );
   $app->sesbania_admin_add_private_route( 'GET', '/users/:id/delete',
-    'admin-user#delete', 'sesbania-admin-user-list' );
+    'admin-user#delete', 'sesbania-admin-user-delete' );
 
   $app->sesbania_admin_add_sidebar_item({
     link => 'sesbania-admin-root-index',
     text => 'Home',
   });
   $app->sesbania_admin_add_sidebar_item({
-    link => 'sesbania-admin-user-list',
     text => 'Users',
+    children => [
+      {
+        link => 'sesbania-admin-user-list',
+        text => 'All Users',
+      },
+      {
+        link => 'sesbania-admin-user-add',
+        text => 'Add User',
+      },
+    ],
   });
 
   # Actually do the setup

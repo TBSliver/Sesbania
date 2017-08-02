@@ -7,8 +7,14 @@ has resultset => sub {
 
 sub list {
   my $c = shift;
-  $c->stash( users => $c->resultset, user_create_form => {
-    type => 'inline',
+  $c->stash( users => $c->resultset );
+  $c->render( template => 'sesbania/admin/user/list' );
+}
+
+sub add {
+  my $c = shift;
+
+  $c->stash( user_create_form => {
     id => 'user_create_form',
     action => $c->url_for,
     method => 'post',
@@ -34,7 +40,7 @@ sub list {
       size => 'inline',
     },
   } );
-  $c->render( template => 'sesbania/admin/user/list' );
+  $c->render( template => 'sesbania/admin/user/add' );
 }
 
 sub create {
